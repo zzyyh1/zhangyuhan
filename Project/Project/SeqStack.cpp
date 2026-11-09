@@ -1,19 +1,20 @@
 //定义栈//
 #include <iostream>
+#include <windows.h>
 using namespace std;
 //初始化栈结构体//
 struct Stack
 {
-    int top;
-    int maxsize;
-    int* elements;
+	int top;
+	int maxsize;
+	int* elements;
 };
 //初始化栈//    
 void InitStack(Stack& S, int max)
 {
-    S.maxsize = max;
-    S.elements = new int[S.maxsize];
-    S.top = -1;
+	S.maxsize = max;
+	S.elements = new int[S.maxsize];
+	S.top = -1;
 }
 //判断栈是否为空//
 bool IsEmpty(Stack S)
@@ -60,7 +61,7 @@ void ConvertToBase(int number, int base)
 {
 	Stack S;
 	InitStack(S, 100); // 初始化栈，假设最大容量为100
-	// 将number转换为base进制并入栈
+	// 将十进制number转换为base进制并入栈
 	while (number > 0)
 	{
 		Push(S, number % base);
@@ -84,6 +85,9 @@ void ConvertToBase(int number, int base)
 int main()
 {
 	int number, base;
+	// 控制台输入输出统一使用 UTF-8，避免中文提示乱码
+	SetConsoleCP(CP_UTF8);
+	SetConsoleOutputCP(CP_UTF8);
 	cout << "请输入一个十进制整数: ";
 	cin >> number;
 	cout << "请输入目标进制(2-9): ";
@@ -91,8 +95,9 @@ int main()
 	if (base < 2 || base > 9)
 	{
 		cout << "无效的进制，请输入2到9之间的整数" << endl;
-		return 0;
+		return 1;
 	}
 	ConvertToBase(number, base);
 	return 0;
 }
+

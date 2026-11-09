@@ -1,0 +1,98 @@
+//定义栈//
+#include <iostream>
+using namespace std;
+//初始化栈结构体//
+struct Stack
+{
+    int top;
+    int maxsize;
+    int* elements;
+};
+//初始化栈//    
+void InitStack(Stack& S, int max)
+{
+    S.maxsize = max;
+    S.elements = new int[S.maxsize];
+    S.top = -1;
+}
+//判断栈是否为空//
+bool IsEmpty(Stack S)
+{
+	return S.top == -1;
+}
+//判断栈是否为满//
+bool IsFull(Stack S)
+{
+	return S.top == S.maxsize - 1;
+}
+//入栈//
+void Push(Stack& S, int x)
+{
+	if (IsFull(S))
+	{
+		cout << "栈已满，无法入栈" << endl;
+		return;
+	}
+	S.elements[++S.top] = x;
+}
+//出栈//
+int Pop(Stack& S)
+{
+	if (IsEmpty(S))
+	{
+		cout << "栈为空，无法出栈" << endl;
+		return -1; // 返回一个特殊值表示栈为空
+	}
+	return S.elements[S.top--];
+}
+//获取栈顶元素//
+int Top(Stack S)
+{
+	if (IsEmpty(S))
+	{
+		cout << "栈为空，无法获取栈顶元素" << endl;
+		return -1; // 返回一个特殊值表示栈为空
+	}
+	return S.elements[S.top];
+}
+//将十进制number转换为base进制//
+void ConvertToBase(int number, int base)
+{
+	Stack S;
+	InitStack(S, 100); // 初始化栈，假设最大容量为100
+	// 将number转换为base进制并入栈
+	while (number > 0)
+	{
+		Push(S, number % base);
+		number /= base;
+	}
+	// 输出转换后的结果
+	cout << "转换结果为: ";
+	while (!IsEmpty(S))
+	{
+		int digit = Pop(S);
+		if (digit < 10)
+			cout << digit; // 输出数字
+		else
+			cout << char(digit - 10 + 'A'); // 输出字母表示的数字
+	}
+	cout << endl;
+	// 释放栈的内存
+	delete[] S.elements;
+}
+//主函数//
+int main()
+{
+	int number, base;
+	cout << "请输入一个十进制整数: ";
+	cin >> number;
+	cout << "请输入目标进制(2-9): ";
+	cin >> base;
+	if (base < 2 || base > 9)
+	{
+		cout << "Invalid base, please enter an integer from 2 to 9" << endl;
+		return 0;
+	}
+	ConvertToBase(number, base);
+	return 0;
+}
